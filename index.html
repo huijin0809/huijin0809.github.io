@@ -438,24 +438,12 @@ ul li {
 																</li>
 																<li><span class="s-title">남은 연차 일수</span>
 																	<div>- <span class="s-title">최근 연차 발생일</span>로부터 오늘 날짜까지의 연차 사용 내역을 조회하고, <span class="s-title">기준 연차에서 사용 일수만큼 차감</span>하여 남은 연차 일수를 구합니다.</div>
-																	<div>- 최근 연차 발생일을 구하기 위해 <span class="s-title">withYear()을 이용</span>하여 입사일의 년도를 올해 년도로 바꿉니다.</div>
-																	<div>- <span class="s-title">isAfter() 메서드를 이용하여 날짜를 비교</span>하고, 바꾼 날짜가 오늘 날짜를 넘어갈 경우 년도를 작년으로 변경합니다.</div>
-																	<div>- 연차 사용 내역을 조회하기 위해 <span class="s-title">INNER JOIN과 IN, BETWEEN 연산자</span>로 사용한 연차 일수를 조회합니다.</div>
-																	<div>- 보상 휴가는 지급일로부터 <span class="s-title">1년의 유효기간</span>이 존재하므로, <span class="s-title">DATE_SUB 함수의 INTERVAL</span>을 이용하여 최근 1년의 보상 휴가의 지급 및 차감 내역을 조회합니다.</div>
+																	<div>- 연차 사용 내역을 조회하기 위해 <span class="s-title">INNER JOIN과 IN, BETWEEN 연산자</span>로 사용한 연차 일수를 조회했습니다.</div>
 																	<div>- <span class="s-title">집계함수 SUM과 CASE문</span>을 이용하여 지급(P), 차감(M)에 따라 계산합니다.</div>
 																</li>
 															</ul></li>
 														<li><span class="b-title">전자결재</span>
 															<ul>
-																<li><span class="s-title">결재 프로세스</span>
-																	<div>- 결재 문서 작성 페이지에서 각각의 검색 버튼 클릭 시 <span class="s-title">Modal</span>로 중간승인자, 최종승인자, 수신참조자를 선택할 수 있는 <span class="s-title">사원 목록 검색창</span>을 구현했습니다.</div>
-																	<div>- Modal에서 선택한 사원의 정보를 조회하여 문서에 출력하기 위해 porm.xml에 <span class="s-title">GSON 의존성을 추가</span>하여 기존 List를 <span class="s-title">JSON 배열로 변환</span>합니다.</div>
-																	<div>- 문서 기안 시, <span class="s-title">Mybatis</span>의 selectKey 구문의 order 속성을 AFTER로 지정하고 last_insert_id()를 조회하여 <span class="s-title">insert 구문을 실행한 후의 키 값</span>을 바로 반환합니다.</div>
-																	<div>- 수신참조자 또는 <span class="s-title">복수의 적요를 동일한 key값에 작업</span>할 시, Mybatis의 <span class="s-title">foreach 구문을 이용</span>하여 mapper를 여러번 호출하지 않아도 되도록 구현했습니다.</div>
-																	<div>- <span class="s-title">DTO</span>를 생성하여 현재 로그인한 사원이 <span class="s-title">해당 문서의 어떤 역할인지(role) 조회</span>하고, role과 결재 문서의 상태에 따라 분기하여 <span class="s-title">동적인 버튼을 출력</span>합니다.</div>
-																	<div>- 결재문서를 기안/승인/반려 시 현재 로그인한 사원의 <span class="s-title">서명이 미등록 상태일 경우</span> 서명 등록이 가능한 내 <span class="s-title">프로필 수정 페이지로 이동</span>하도록 구현했습니다.</div>
-																	<div>- draftFunction.js 파일을 생성하여 중복되는 JQuery 코드를 <span class="s-title">공통 함수</span>로 모듈화했습니다.</div>
-																</li>
 																<li><span class="s-title">휴가신청서</span>
 																	<div>- 휴가 종류(반차, 연차, 보상)를 radio 버튼으로 선택시 <span class="s-title">해당 휴가 종류의 남은 일수를 동적으로 출력</span>하여 사용자의 편의성을 높혔습니다.</div>
 																	<div>- 선택한 휴가 종류에 따라 기간을 선택하는 input 태그를 동적으로 생성하며, selectbox 또한 남은 휴가 일수만큼만 생성됩니다.</div>
@@ -467,11 +455,20 @@ ul li {
 																	<div>- 목표액과 매출액 입력 시 <span class="s-title">자동으로 목표달성률을 계산</span>하여 출력하여 사용자의 편의성을 높혔습니다.</div>
 																	<div>- <span class="s-title">MultipartFile</span>로 파일 첨부 기능을 구현했으며, 파일이 첨부된 문서의 수정 페이지에서는 AJAX를 이용하여 <span class="s-title">비동기적으로 기존 파일을 삭제</span>할 수 있습니다.</div>
 																</li>
-																<li><span class="s-title">결재함 / 임시저장함 페이지</span>
+																<li><span class="s-title">결재함 / 임시저장함</span>
 																	<div>- 내 문서함의 결재함 tab에서 승인해야할 문서의 목록을 조회할 수 있습니다.</div>
-																	<div>- 기간별 조회, 문서 제목 검색, 등록일순 정렬이 가능하며 <span class="s-title">GROUP BY절</span>을 이용하여 <span class="s-title">결재 상태별 건수를 카운트</span>하여 출력합니다.</div>
+																	<div>- 기간별 조회, 문서 제목 검색, 등록일순 정렬이 가능하며 <span class="s-title">GROUP BY절</span>을 이용하여 <span class="s-title">결재상태별 건수를 카운트</span>하여 출력합니다.</div>
 																	<div>- 임시저장함의 문서를 checkbox로 <span class="s-title">전체선택/해제하여 일괄적으로 삭제</span>할 수 있으며, 첨부된 파일이 있을시 파일도 일괄적으로 삭제됩니다.</div>
 																	<div>- 임시저장된 문서 클릭 시 <span class="s-title">해당 문서를 이어서 작성</span>할 수 있는 페이지로 이동합니다.</div>
+																</li>
+																<li><span class="s-title">결재 프로세스</span>
+																	<div>- 결재 문서 작성 페이지에서 각각의 검색 버튼 클릭 시 <span class="s-title">Modal</span>로 중간승인자, 최종승인자, 수신참조자를 선택할 수 있는 <span class="s-title">사원 목록 검색창</span>을 구현했습니다.</div>
+																	<div>- Modal에서 선택한 사원의 정보를 조회하여 문서에 출력하기 위해 porm.xml에 <span class="s-title">GSON 의존성을 추가</span>하여 기존 List를 <span class="s-title">JSON 배열로 변환</span>합니다.</div>
+																	<div>- 문서 기안 시, <span class="s-title">Mybatis</span>의 selectKey 구문의 order 속성을 AFTER로 지정하고 last_insert_id()를 조회하여 <span class="s-title">insert 구문을 실행한 후의 키 값</span>을 바로 반환합니다.</div>
+																	<div>- 수신참조자 또는 <span class="s-title">복수의 적요를 동일한 key값에 작업</span>할 시, Mybatis의 <span class="s-title">foreach 구문을 이용</span>하여 mapper를 여러번 호출하지 않아도 되도록 구현했습니다.</div>
+																	<div>- <span class="s-title">DTO</span>를 생성하여 현재 로그인한 사원이 <span class="s-title">해당 문서의 어떤 역할인지(role) 조회</span>하고, role과 결재 문서의 상태에 따라 분기하여 <span class="s-title">동적인 버튼을 출력</span>합니다.</div>
+																	<div>- 결재문서를 기안/승인/반려 시 현재 로그인한 사원의 <span class="s-title">서명이 미등록 상태일 경우</span> 서명 등록이 가능한 <span class="s-title">프로필 수정 페이지로 이동</span>하도록 구현했습니다.</div>
+																	<div>- draftFunction.js 파일을 생성하여 중복되는 JQuery 코드를 <span class="s-title">공통 함수</span>로 모듈화했습니다.</div>
 																</li>
 															</ul></li>
 														<li><span class="b-title">메인 페이지</span>
