@@ -398,8 +398,7 @@ ul li {
 											</tr>
 											<tr>
 												<td colspan="2">
-												<br>- 회원가입 페이지 <br>
-												- 인사관리 페이지<br>- 임시 비밀번호 발급<br>- 결재함/임시저장함 목록<br>- 휴가신청서/매출보고서 전자결재<br>- 연차 프로세스<br>- 매출보고서 기반의 매출차트 출력
+												<br>
 													<ol>
 														<li><span class="b-title">회원가입</span>
 															<ul>
@@ -442,20 +441,36 @@ ul li {
 																	<div>- 최근 연차 발생일을 구하기 위해 withYear()을 이용하여 입사일의 년도를 올해 년도로 바꿉니다.</div>
 																	<div>- isAfter() 메서드를 이용하여 날짜를 비교하고, 바꾼 날짜가 오늘 날짜를 넘어갈 경우 년도를 작년으로 변경합니다.</div>
 																	<div>- 연차 사용 내역을 조회하기 위해 INNER JOIN과 IN, BETWEEN 연산자로 사용한 연차 일수를 조회합니다.</div>
-																	<div>- 보상 휴가는 지급일로부터 1년의 유효기간이 존재하므로, DATE_SUB 함수의 INTERVAL을 이용하여 최근 1년의 보상 휴가 지급 및 차감 내역을 조회합니다.</div>
-																	<div>- 집계함수 SUM과 CASE WHEN ~ THEN 절을 이용하여 지급(플러스), 차감(마이너스)에 따라 계산합니다.</div>
+																	<div>- 보상 휴가는 지급일로부터 1년의 유효기간이 존재하므로, DATE_SUB 함수의 INTERVAL을 이용하여 최근 1년의 보상 휴가의 지급 및 차감 내역을 조회합니다.</div>
+																	<div>- 집계함수 SUM과 CASE문을 이용하여 지급(P), 차감(M)에 따라 계산합니다.</div>
 																</li>
 															</ul></li>
 														<li><span class="b-title">전자결재</span>
 															<ul>
-																<li><span class="s-title">연차 프로세스</span>
-																	<div>- 근속기간, 기준 연차, 남은 연차일수를 구하는 메서드를 생성했습니다.</div>
-																	<div>- 담당 기능 작성 예정</div></li>
-																<li><span class="s-title">새 결재</span>
-																	<div>- 담당 기능 작성 예정</div></li>
-																<li><span class="s-title">문서 목록 페이지</span>
+																<li><span class="s-title">결재 프로세스</span>
+																	<div>- 결재 문서 작성 페이지에서 각각의 검색 버튼 클릭 시 Modal로 중간승인자, 최종승인자, 수신참조자를 선택할 수 있는 사원 목록 검색창을 구현했습니다.</div>
+																	<div>- Modal에서 선택한 사원의 정보를 문서에 출력하기 위해 porm.xml에 GSON 의존성을 추가하여 기존 List를 JSON 배열로 변환합니다.</div>
+																	<div>- 문서 기안 시, Mybatis의 selectKey 구문의 order 속성을 AFTER로 지정하고 last_insert_id()를 조회하여 insert 구문을 실행한 후 키 값을 바로 반환합니다.</div>
+																	<div>- 수신참조자 또는 복수의 적요를 동일한 key값에 insert할 시, Mybatis의 foreach 구문을 이용하여 mapper를 여러번 호출하지 않아도 되도록 구현했습니다.</div>
+																	<div>- DTO를 생성하여 현재 로그인한 사원이 해당 문서의 어떤 역할인지(role) 조회하고, role과 결재 문서의 상태에 따라 분기하여 동적인 버튼을 출력합니다.</div>
+																	<div>- draftFunction.js 파일을 생성하여 중복되는 JQuery 코드를 공통 함수로 모듈화했습니다.</div>
+																</li>
+																<li><span class="s-title">휴가신청서</span>
+																	<div>- 휴가 종류(반차, 연차, 보상)를 radio 버튼으로 선택시 해당 휴가 종류의 남은 일수를 동적으로 출력하여 사용자의 편의성을 높혔습니다.</div>
+																	<div>- 선택한 휴가 종류에 따라 기간을 선택하는 input 태그를 동적으로 생성하며, selectbox 또한 남은 휴가 일수만큼만 생성됩니다.</div>
+																	<div>- 시작일과 종료일이 존재하는 연차의 경우, 선택한 휴가 일수와 휴가 시작일에 따라 휴가 종료일을 자동으로 계산하여 출력합니다.</div>
+																</li>
+																<li><span class="s-title">매출보고서</span>
+																	<div>- 매출보고서는 현재 월 기준 지난 3달을 선택할 수 있도록 selectbox를 동적으로 생성하며, AJAX로 조회하여 이미 매출보고서가 결재완료된 년월은 출력되지 않도록 했습니다.</div>
+																	<div>- +와 - 버튼으로 복수의 적요를 동적으로 추가 또는 삭제할 수 있습니다.</div>
+																	<div>- 목표액과 매출액 입력 시 자동으로 목표달성률을 계산하여 출력하여 사용자의 편의성을 높혔습니다.</div>
+																	<div>- MultipartFile로 파일 첨부 기능을 구현했으며, 파일이 첨부된 문서의 수정 페이지에서는 AJAX를 이용하여 비동기적으로 기존 파일을 삭제할 수 있습니다.</div>
+																</li>
+																<li><span class="s-title">결재함 / 임시저장함 페이지</span>
 																	<div>- 담당 기능 작성 예정</div>
-																	<div>- 담당 기능 작성 예정</div></li>
+																	<div>- 담당 기능 작성 예정</div>
+																	<div>- 담당 기능 작성 예정</div>
+																</li>
 															</ul></li>
 														<li><span class="b-title">메인 페이지</span>
 															<ul>
