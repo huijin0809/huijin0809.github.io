@@ -194,9 +194,8 @@ ul li {
 											<h3>
 												구디아카데미 <span> 2023-04-05 ~ 2023-09-26</span>
 											</h3>
-											<h4>(KDT) 자바 개발자 양성과정</h4>
+											<h4>(KDT) 자바 개발자 양성과정 - 총 118일 / 946시간 </h4>
 											<p>
-												총 118일 / 946시간<br>
 												<p>[1개월차]<br>
 												<span class="s-title">HTML</span>과 <span class="s-title">CSS</span>를 배우며 <span class="s-title">JAVA</span>의 기본 문법을 익혔습니다.
 												<span class="s-title">mariadb</span>를 직접 사용하며 <span class="s-title">RDBMS</span>에 대해 배웠습니다.
@@ -420,16 +419,37 @@ ul li {
 																<li><span class="s-title">개인정보 페이지</span>
 																	<div>- 개인정보는 조회만 가능하며, 사원의 사진과 서명 정보는 Modal을 이용하여 확인할 수 있습니다.</div>
 																<li><span class="s-title">임시 비밀번호 발급 기능</span>
-																	<div>- 비밀번호 분실시 해당 페이지에서 관리자가 임시 비밀번호를 발급할 수 있습니다.</div>
+																	<div>- 비밀번호 분실시 개인정보 조회 페이지에서 관리자가 임시 비밀번호를 발급할 수 있습니다.</div>
 																	<div>- 버튼 클릭시 Modal에서 JQuery의 Math.random()을 이용하여 랜덤한 임시 비밀번호를 생성합니다.</div>
-																	<div>- 비동기 방식(AJAX)으로 생성한 임시 비밀번호로 즉시 초기화할 수 있습니다.</div>
-																	<div>- 이메일 발송 버튼 클릭시 emailJs API를 이용하여 개인정보에 등록된 사용자의 이메일로 임시 비밀번호를 발송하여 편의성을 높혔습니다.</div>
+																	<div>- 또한, 비동기 방식(AJAX)으로 생성한 임시 비밀번호로 즉시 초기화할 수 있습니다.</div>
+																	<div>- 이메일 발송 버튼 클릭시 emailJs API를 이용하여 개인정보에 등록된 사용자의 이메일로 임시 비밀번호를 발송하여 관리자와 사용자의 편의성을 높혔습니다.</div>
+																</li>
+															</ul></li>
+														<li><span class="b-title">연차 프로세스</span>
+															<ul>
+																<li><span class="s-title">근속기간</span>
+																	<div>- parse()을 사용하여 사원의 입사일(String)을 LocalDate 객체로 변환합니다.</div>
+																	<div>- DateTimeFormatter.ofPattern()을 사용하여 yyyy-MM-dd 형식으로 지정합니다.</div>
+																	<div>- Period 객체의 between()로 입사일과 오늘 날짜 사이의 기간을 구하고, getYears() 또는 getMonths()로 근속년(월)수를 반환합니다.</div>
+																</li>
+																<li><span class="s-title">기준 연차</span>
+																	<div>- 근속기간이 1년 미만일 경우, 한달 만근시 연차가 1개씩 발생합니다.</div>
+																	<div>- 근속기간이 1년 이상일 경우, 최초 1년 만근시 15개 발생하며 이후 2년마다 발생할 기준 연차가 1개씩 증가합니다.</div>
+																	<div>- 기준 연차는 최대 25개까지만 발생 가능합니다.</div>
+																</li>
+																<li><span class="s-title">남은 연차 일수</span>
+																	<div>- 최근 연차 발생일로부터 오늘 날짜까지의 연차 사용 내역을 조회하고, 기준 연차에서 사용 일수만큼 차감하여 남은 연차 일수를 구합니다.</div>
+																	<div>- 최근 연차 발생일을 구하기 위해 withYear()을 이용하여 입사일의 년도를 올해 년도로 바꿉니다.</div>
+																	<div>- isAfter() 메서드를 이용하여 날짜를 비교하고, 바꾼 날짜가 오늘 날짜를 넘어갈 경우 년도를 작년으로 변경합니다.</div>
+																	<div>- 연차 사용 내역을 조회하기 위해 INNER JOIN과 IN, BETWEEN 연산자로 사용한 연차 일수를 조회합니다.</div>
+																	<div>- 보상 휴가는 지급일로부터 1년의 유효기간이 존재하므로, DATE_SUB 함수의 INTERVAL을 이용하여 최근 1년의 보상 휴가 지급 및 차감 내역을 조회합니다.</div>
+																	<div>- 집계함수 SUM과 CASE WHEN ~ THEN 절을 이용하여 지급(플러스), 차감(마이너스)에 따라 계산합니다.</div>
 																</li>
 															</ul></li>
 														<li><span class="b-title">전자결재</span>
 															<ul>
 																<li><span class="s-title">연차 프로세스</span>
-																	<div>- 담당 기능 작성 예정</div>
+																	<div>- 근속기간, 기준 연차, 남은 연차일수를 구하는 메서드를 생성했습니다.</div>
 																	<div>- 담당 기능 작성 예정</div></li>
 																<li><span class="s-title">새 결재</span>
 																	<div>- 담당 기능 작성 예정</div></li>
